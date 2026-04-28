@@ -1,0 +1,831 @@
+<html lang="ko" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">리얼썬 | 실물자산 기반 태양광 투자 플랫폼</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous" vid="5">
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" vid="6">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" vid="7">
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="8">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="9">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;family=Outfit:wght@300;400;500;700&amp;display=swap" rel="stylesheet" vid="10">
+    
+    
+
+    <style vid="11">
+        :root {
+            --color-bg-main: #F8F7F4;
+            --color-bg-card: #FFFFFF;
+            --color-bg-alt: #EFEBE4;
+            --color-brand-green: #1B3F2A;
+            --color-brand-green-dark: #122A1C;
+            --color-brand-gold: #B89C6D;
+            --color-text-main: #1F2421;
+            --color-text-muted: #6B726E;
+            --color-text-light: #A3ACA7;
+            
+            --font-kr: 'Pretendard', sans-serif;
+            --font-en: 'Outfit', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+            
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            
+            --shadow-subtle: 0 10px 40px rgba(27, 63, 42, 0.03);
+            --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.04);
+            
+            --grid-gap: 2rem;
+            --section-pad: 8rem 2rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-kr);
+            background-color: var(--color-bg-main);
+            color: var(--color-text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        
+        .vertical-spine {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 100vh;
+            background-color: var(--color-brand-green);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            padding: 2rem 0;
+        }
+
+        .vertical-text {
+            color: rgba(255,255,255,0.6);
+            font-family: var(--font-en);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            white-space: nowrap;
+        }
+
+        .vertical-text.active {
+            color: var(--color-brand-gold);
+            font-weight: 600;
+        }
+
+        
+        .layout-wrapper {
+            margin-left: 60px;
+            position: relative;
+        }
+
+        
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--color-brand-green);
+        }
+
+        .text-gold { color: var(--color-brand-gold); }
+        .text-en { font-family: var(--font-en); }
+        
+        .label-micro {
+            font-family: var(--font-en);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-brand-gold);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-brand-green-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--color-brand-green);
+            border: 1px solid var(--color-brand-green);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--color-brand-green);
+            color: white;
+        }
+
+        .badge {
+            background-color: var(--color-brand-green);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-family: var(--font-en);
+        }
+
+        
+
+        
+        nav {
+            padding: 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--color-brand-green);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--color-brand-gold);
+        }
+
+        
+        .hero {
+            padding: 12rem 2rem 8rem;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 85%;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 600px;
+        }
+
+        
+        .frame-offset {
+            position: absolute;
+            top: 20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--color-brand-gold);
+            border-radius: var(--radius-lg);
+            z-index: 1;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            position: relative;
+            z-index: 2;
+            box-shadow: var(--shadow-card);
+        }
+
+        
+        .decor-waves {
+            position: absolute;
+            right: -10%;
+            bottom: -10%;
+            width: 300px;
+            height: 300px;
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        
+        
+        .split-section {
+            padding: var(--section-pad);
+            background-color: var(--color-bg-card);
+            border-top-left-radius: 60px;
+            border-top-right-radius: 60px;
+            position: relative;
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 6rem;
+        }
+
+        
+        .data-display {
+            background-color: var(--color-bg-main);
+            padding: 4rem;
+            border-radius: var(--radius-xl);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-display h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .data-display p.sub {
+            color: var(--color-text-muted);
+            margin-bottom: 3rem;
+            font-size: 0.95rem;
+        }
+
+        .data-numbers {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .data-item {
+            text-align: left;
+        }
+
+        .data-val {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--color-brand-green);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: baseline;
+            gap: 0.3rem;
+        }
+
+        .data-val span {
+            font-family: var(--font-en);
+            font-size: 1rem;
+            color: var(--color-text-muted);
+            font-weight: 400;
+        }
+
+        .data-lbl {
+            font-family: var(--font-en);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-light);
+        }
+
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: #FFFFFF;
+            border: 1px solid rgba(184, 156, 109, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .feature-card:hover {
+            box-shadow: var(--shadow-card);
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background-color: var(--color-bg-alt);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--color-brand-gold);
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--color-brand-green);
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+            line-height: 1.5;
+        }
+
+        
+        .core-message {
+            padding: 6rem 2rem;
+            text-align: center;
+            background-color: var(--color-brand-green);
+            color: white;
+        }
+
+        .core-message h2 {
+            color: white;
+            font-size: 2.8rem;
+            font-weight: 400;
+            font-family: var(--font-serif);
+            margin-bottom: 1.5rem;
+        }
+
+        .core-message p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        
+        .flow-section {
+            padding: var(--section-pad);
+            background-color: var(--color-bg-main);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .flow-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        
+        .flow-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 100%;
+            background-color: rgba(184, 156, 109, 0.3);
+        }
+
+        .flow-step {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .flow-step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .step-content {
+            width: 42%;
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .step-number {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: var(--color-bg-main);
+            border: 1px solid var(--color-brand-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-en);
+            color: var(--color-brand-gold);
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .step-content h4 {
+            font-size: 1.1rem;
+            color: var(--color-brand-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+
+        
+        .target-section {
+            padding: 6rem 2rem;
+            background-color: var(--color-bg-alt);
+            text-align: center;
+        }
+
+        .tags-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tag {
+            background-color: transparent;
+            border: 1px solid var(--color-brand-green);
+            color: var(--color-brand-green);
+            padding: 0.8rem 1.5rem;
+            border-radius: 100px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            background-color: var(--color-brand-green);
+            color: white;
+        }
+
+        
+        .cta-section {
+            padding: 8rem 2rem;
+            text-align: center;
+            background-color: var(--color-bg-card);
+        }
+
+        .cta-box {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--color-bg-main);
+            padding: 5rem 3rem;
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(184, 156, 109, 0.2);
+            position: relative;
+        }
+
+        .cta-box h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-box p {
+            color: var(--color-text-muted);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        
+        .dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--color-brand-gold);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+    </style>
+</head>
+<body vid="12">
+
+    
+    <div class="vertical-spine" vid="13">
+        <div class="vertical-text" vid="14">Real World Asset</div>
+        <div class="vertical-text active" vid="15">Solar Power</div>
+        <div class="vertical-text" vid="16">Web3 Platform</div>
+    </div>
+
+    <div class="layout-wrapper" vid="17">
+        <nav vid="18">
+            <div class="logo" vid="19">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" vid="20">
+                    <path d="M12 2L14.4 7.6L20 10L14.4 12.4L12 18L9.6 12.4L4 10L9.6 7.6L12 2Z" vid="21"></path>
+                    <circle cx="12" cy="10" r="3" vid="22"></circle>
+                </svg>
+                리얼썬
+            </div>
+            <div class="nav-links" vid="23">
+                
+            </div>
+        </nav>
+
+        <section class="hero container" vid="24">
+            <div class="hero-grid" vid="25">
+                <div class="hero-content" vid="26">
+                    <span class="label-micro" vid="27"><span class="dot" vid="28"></span>New Asset Class</span>
+                    <h1 vid="29">태양광 발전소 수익을<br vid="30"><span class="text-gold" vid="31">누구나 소유</span>할 수 있는 시대</h1>
+                    <p vid="32">리얼썬은 실제 운영 중인 태양광 발전소의 전력 판매 수익을 기반으로, 블록체인 NFT와 포인트 시스템을 결합한 투명하고 안정적인 실물자산(RWA) 투자 생태계입니다.</p>
+                    <div class="hero-actions" vid="33">
+                        <a href="#" class="btn btn-primary" vid="34">투자 상품 보기</a>
+                        <a href="#" class="btn btn-outline" vid="35">플랫폼 소개</a>
+                    </div>
+                </div>
+                <div class="hero-visual" vid="36">
+                    <div class="frame-offset" vid="37"></div>
+                    
+                    <img src="https://images.pexels.com/photos/9875680/pexels-photo-9875680.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=2" alt="태양광 발전소" class="hero-img" vid="38">
+                    
+                    
+                    <svg class="decor-waves" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" vid="39">
+                        <path fill="none" stroke="var(--color-brand-gold)" stroke-width="0.5" d="M 100, 100 m -50, 0 a 50,50 0 1,0 100,0 a 50,50 0 1,0 -100,0" vid="40"></path>
+                        <path fill="none" stroke="var(--color-brand-gold)" stroke-width="0.5" d="M 100, 100 m -70, 0 a 70,70 0 1,0 140,0 a 70,70 0 1,0 -140,0" vid="41"></path>
+                        <path fill="none" stroke="var(--color-brand-gold)" stroke-width="0.5" d="M 100, 100 m -90, 0 a 90,90 0 1,0 180,0 a 90,90 0 1,0 -180,0" vid="42"></path>
+                    </svg>
+
+                    
+                    <div style="position: absolute; bottom: 30px; left: -20px; z-index: 4;" vid="43">
+                        <span class="badge" vid="44">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" vid="45"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" vid="46"></path></svg>
+                            수익률 연 12% 목표
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="core-message" vid="47">
+            <h2 vid="48">전기는 생산되고, 수익은 투명하게 분배됩니다.</h2>
+            <p vid="49">매일 태양광 발전소가 생산하는 전력은 즉각적인 가치를 창출합니다. 리얼썬은 이 가치를 블록체인 기술과 연결하여, 중간 단계 없이 투자자에게 가장 투명하고 확실한 방식으로 수익을 전달합니다.</p>
+        </section>
+
+        
+        <section class="split-section" vid="50">
+            <div class="container split-grid" vid="51">
+                
+                
+                <div class="data-display" vid="52">
+                    <span class="label-micro" vid="53">Real-time Asset Data</span>
+                    <h2 vid="54">발전소 운영 지표</h2>
+                    <p class="sub" vid="55">리얼썬 플랫폼과 연동된 실제 자산의 누적 데이터입니다. 모든 정보는 블록체인 상에 투명하게 기록됩니다.</p>
+                    
+                    <div class="data-numbers" vid="56">
+                        <div class="data-item" vid="57">
+                            <div class="data-val" vid="58">228<span vid="59">kW</span></div>
+                            <div class="data-lbl" vid="60">설비 용량 (최대)</div>
+                        </div>
+                        <div class="data-item" vid="61">
+                            <div class="data-val" vid="62">2019<span vid="63">년</span></div>
+                            <div class="data-lbl" vid="64">사업 개시일</div>
+                        </div>
+                        <div class="data-item" vid="65">
+                            <div class="data-val" vid="66">1,902<span vid="67">MWh</span></div>
+                            <div class="data-lbl" vid="68">누적 발전량</div>
+                        </div>
+                        <div class="data-item" vid="69">
+                            <div class="data-val text-gold" vid="70">3.5<span vid="71">억원</span></div>
+                            <div class="data-lbl" vid="72">누적 전력 매출</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 1.5rem;" vid="73">
+                        <div class="data-lbl" style="margin-bottom: 0.5rem;" vid="74">연평균 예상 매출</div>
+                        <div class="data-val" style="font-size: 1.8rem;" vid="75">약 59,534,982<span vid="76">원</span></div>
+                    </div>
+                </div>
+
+                
+                <div vid="77">
+                    <div style="margin-bottom: 2rem;" vid="78">
+                        <span class="label-micro" vid="79">Why Real Sun</span>
+                        <h2 style="font-size: 2rem;" vid="80">가장 확실한 실물자산 투자</h2>
+                    </div>
+                    <div class="features-grid" vid="81">
+                        <div class="feature-card" vid="82">
+                            <div class="card-icon" vid="83">
+                                <svg viewBox="0 0 24 24" vid="84"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" vid="85"></path></svg>
+                            </div>
+                            <h3 vid="86">실물 기반 투자</h3>
+                            <p vid="87">변동성 높은 가상자산이 아닌, 실제 존재하는 태양광 발전소의 전력 판매 수익이라는 명확한 기초 자산에 투자합니다.</p>
+                        </div>
+                        <div class="feature-card" vid="88">
+                            <div class="card-icon" vid="89">
+                                <svg viewBox="0 0 24 24" vid="90"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" vid="91"></rect><line x1="16" y1="2" x2="16" y2="6" vid="92"></line><line x1="8" y1="2" x2="8" y2="6" vid="93"></line><line x1="3" y1="10" x2="21" y2="10" vid="94"></line></svg>
+                            </div>
+                            <h3 vid="95">매월 안정적 수익</h3>
+                            <p vid="96">한국전력 및 전력거래소와의 장기 계약을 통해 발생하는 발전 수익이 매월 투자자의 지갑으로 정산됩니다.</p>
+                        </div>
+                        <div class="feature-card" vid="97">
+                            <div class="card-icon" vid="98">
+                                <svg viewBox="0 0 24 24" vid="99"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" vid="100"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96" vid="101"></polyline><line x1="12" y1="22.08" x2="12" y2="12" vid="102"></line></svg>
+                            </div>
+                            <h3 vid="103">NFT 기반 소유권</h3>
+                            <p vid="104">복잡한 서류 절차 없이 NFT를 통해 발전소의 지분을 증명하고, 마켓플레이스에서 자유롭게 거래할 수 있습니다.</p>
+                        </div>
+                        <div class="feature-card" vid="105">
+                            <div class="card-icon" vid="106">
+                                <svg viewBox="0 0 24 24" vid="107"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" vid="108"></path><circle cx="12" cy="12" r="3" vid="109"></circle></svg>
+                            </div>
+                            <h3 vid="110">투명한 내역 공개</h3>
+                            <p vid="111">일일 발전량, 전력 단가, 수익 분배 내역 등 모든 데이터가 블록체인에 기록되어 누구나 실시간으로 검증 가능합니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="flow-section" vid="112">
+            <div class="container" vid="113">
+                <div class="section-header" vid="114">
+                    <span class="label-micro" vid="115">Investment Process</span>
+                    <h2 vid="116">투자는 단순하게, 수익은 확실하게</h2>
+                </div>
+                
+                <div class="flow-container" vid="117">
+                    <div class="flow-step" vid="118">
+                        <div class="step-content" vid="119">
+                            <span class="label-micro" vid="120">Step 01</span>
+                            <h4 vid="121">회원가입 및 지갑 연결</h4>
+                            <p vid="122">리얼썬 플랫폼에 가입하고 Web3 지갑을 안전하게 연동합니다.</p>
+                        </div>
+                        <div class="step-number" vid="123">1</div>
+                        <div style="width: 42%;" vid="124"></div>
+                    </div>
+                    
+                    <div class="flow-step" vid="125">
+                        <div style="width: 42%;" vid="126"></div>
+                        <div class="step-number" vid="127">2</div>
+                        <div class="step-content" vid="128">
+                            <span class="label-micro" vid="129">Step 02</span>
+                            <h4 vid="130">태양광 발전소 상품 확인</h4>
+                            <p vid="131">상세한 데이터룸을 통해 발전소의 위치, 용량, 예상 수익률을 검토합니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step" vid="132">
+                        <div class="step-content" vid="133">
+                            <span class="label-micro" vid="134">Step 03</span>
+                            <h4 vid="135">NFT 또는 포인트 투자</h4>
+                            <p vid="136">원하는 금액만큼 발전소 지분 NFT를 구매하거나 포인트로 참여합니다.</p>
+                        </div>
+                        <div class="step-number" vid="137">3</div>
+                        <div style="width: 42%;" vid="138"></div>
+                    </div>
+
+                    <div class="flow-step" vid="139">
+                        <div style="width: 42%;" vid="140"></div>
+                        <div class="step-number" vid="141">4</div>
+                        <div class="step-content" vid="142">
+                            <span class="label-micro" vid="143">Step 04</span>
+                            <h4 vid="144">전력 판매 수익 발생</h4>
+                            <p vid="145">실제 태양광 발전소가 가동되며 한국전력을 통해 매출이 발생합니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step" vid="146">
+                        <div class="step-content" vid="147">
+                            <span class="label-micro" vid="148">Step 05</span>
+                            <h4 vid="149">투자자 리워드 지급</h4>
+                            <p vid="150">발생한 수익이 스마트 컨트랙트를 통해 보유 지분 비율대로 자동 분배됩니다.</p>
+                        </div>
+                        <div class="step-number" vid="151">5</div>
+                        <div style="width: 42%;" vid="152"></div>
+                    </div>
+
+                    <div class="flow-step" vid="153">
+                        <div style="width: 42%;" vid="154"></div>
+                        <div class="step-number" vid="155">6</div>
+                        <div class="step-content" vid="156">
+                            <span class="label-micro" vid="157">Step 06</span>
+                            <h4 vid="158">자유로운 자산 거래</h4>
+                            <p vid="159">투자금 회수가 필요할 때, 내장된 NFT 마켓플레이스에서 지분을 매각할 수 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="target-section" vid="160">
+            <div class="container" vid="161">
+                <span class="label-micro" vid="162">Who is it for</span>
+                <h2 style="font-size: 2.2rem; margin-bottom: 1rem;" vid="163">누구를 위한 플랫폼인가요?</h2>
+                <p style="color: var(--color-text-muted);" vid="164">리얼썬은 가치를 아는 스마트한 투자자들을 위해 설계되었습니다.</p>
+                
+                <div class="tags-wrapper" vid="165">
+                    <span class="tag" vid="166">실물자산 기반 투자를 원하는 분</span>
+                    <span class="tag" vid="167">안정적인 패시브 인컴 수익자</span>
+                    <span class="tag" vid="168">ESG 및 친환경 가치 투자자</span>
+                    <span class="tag" vid="169">웹3 RWA 트렌드 선도자</span>
+                    <span class="tag" vid="170">태양광 에너지 사업 관심자</span>
+                    <span class="tag" vid="171">투명한 수익 구조를 선호하는 분</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section" vid="172">
+            <div class="container" vid="173">
+                <div class="cta-box" vid="174">
+                    <span class="label-micro" style="margin-bottom: 1rem; display: inline-block;" vid="175">Start Your Journey</span>
+                    <h2 vid="176">지금, 미래 에너지 자산에<br vid="177">참여하세요</h2>
+                    <p vid="178">리얼썬은 태양광 발전소의 실제 수익을 기반으로<br vid="179">누구나 쉽게 참여할 수 있는 새로운 에너지 투자 생태계를 만듭니다.</p>
+                    <div class="cta-actions" vid="180">
+                        <a href="#" class="btn btn-primary" style="padding: 1.2rem 3rem;" vid="181">지금 시작하기</a>
+                        <a href="#" class="btn btn-outline" style="padding: 1.2rem 3rem;" vid="182">투자 상품 둘러보기</a>
+                    </div>
+                    
+                    
+                    <div style="position: absolute; top: 20px; left: 20px; width: 30px; height: 30px; border-top: 2px solid var(--color-brand-gold); border-left: 2px solid var(--color-brand-gold);" vid="183"></div>
+                    <div style="position: absolute; bottom: 20px; right: 20px; width: 30px; height: 30px; border-bottom: 2px solid var(--color-brand-gold); border-right: 2px solid var(--color-brand-gold);" vid="184"></div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+
+</body></html>
